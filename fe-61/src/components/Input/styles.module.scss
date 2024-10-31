@@ -1,0 +1,50 @@
+.inputWrapper {
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputLabel {
+  margin-bottom: 0.5em;
+  font-size: 1em;
+  color: #333;
+}
+
+.inputField {
+  padding: 0.8em;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  transition: border-color 0.3s;
+
+  &:focus {
+    outline: none;
+    border-color: #646cff;
+  }
+
+  &:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+
+  &.inputError {
+    border-color: #ff6b6b;
+  }
+}
+
+.inputErrorMessage {
+  margin-top: 0.5em;
+  font-size: 0.875em;
+  color: #ff6b6b;
+}
+
+.passwordInput {
+  position: relative;
+
+  .showButton {
+    position: absolute;
+    background-color: var(--navbar-background);
+    right: 0;
+    top: 32px;
+  }
+}

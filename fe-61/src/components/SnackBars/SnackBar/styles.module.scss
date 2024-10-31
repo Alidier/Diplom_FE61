@@ -1,0 +1,60 @@
+.snack-bar {
+  width: 100%;
+  border: 1px solid #aeaeae;
+  background: #c5c5c5;
+  color: #000;
+  padding: 12px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  animation: fadeIn 5s forwards;
+  
+    &--Ok {
+      background-color: #6ebe80;
+      color: #ffffff;
+    }
+
+    &--Error {
+      background-color: #fa3b3b;
+      color: #ffffff;
+    }
+
+  
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    width: 100%;
+    height: 4px;
+    border-bottom-right-radius: 60px;
+    background-color: azure;
+    animation: shrinkAnimation 5s forwards;
+    transform-origin: right;
+  }
+}
+
+@keyframes fadeIn {
+  100% {
+    opacity: 100%;
+  }
+  20% {
+    opacity: 100%;
+  }
+  0% {
+    opacity: 0;
+  }
+}
+
+@keyframes shrinkAnimation {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}

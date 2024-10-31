@@ -1,0 +1,23 @@
+.container {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+
+  .mediumPosts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .saidColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.block {
+  padding: 20px 0;
+}

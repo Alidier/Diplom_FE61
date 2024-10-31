@@ -1,0 +1,79 @@
+.burgerBtnWrap {
+  position: relative; /* Устанавливаем позицию родителя для абсолютного позиционирования дочерних элементов */
+}
+
+.menu {
+  display: flex;
+  flex-direction: column; /* Вертикальное расположение ссылок */
+  position: absolute; /* Абсолютное позиционирование для захода за родительский блок */
+  top: 100%; /* Расположим меню непосредственно под кнопкой бургера */
+  left: 100%; /* Центрируем меню относительно кнопки */
+  transform: translateX(-50%); /* Смещение влево на 50% ширины меню для центрирования */
+  background-color: #3871ec; /* Цвет фона для меню */
+  border-radius: 5px; /* Округление углов */
+  padding: 10px; /* Отступы внутри меню */
+  z-index: 1000; /* Обеспечиваем, что меню выше других элементов */
+  align-items: center;
+}
+
+.menu a {
+  color: #fff; /* Цвет текста ссылок */
+  text-decoration: none; /* Убираем подчеркивание */
+  padding: 5px 0; /* Отступы между ссылками */
+ 
+}
+.menu a:hover {
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  border: 1px solid transparent;
+  display: inline-block;
+text-align: center;
+}
+.menu button {
+  background-color: #3871ec;
+}
+
+.menu a:hover {
+  text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+.burger:focus,
+.burger:focus-visible {
+  outline: none;
+}
+
+.burger {
+  padding: 0;
+  width: 40px;
+  height: 19px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  border: none;
+  background: #3871ec;
+  outline: none;
+}
+
+.burger .line {
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  transition: all 0.3s;
+}
+
+.burger.open .line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.burger.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.open .line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
