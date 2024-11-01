@@ -7,10 +7,8 @@ import Post from 'components/Post';
 import { useGetAllPosts } from 'api/hooksApi/useGetAllPosts';
 import Search from 'components/Search';
 import Ordering from 'components/Ordering';
-import { TablePagination } from '@mui/material';
 import Pagination from 'components/Pagination';
 import { Link } from 'react-router-dom';
-
 
 const AllPosts = () => {
   const dispatch = useDispatch();
@@ -42,15 +40,10 @@ const AllPosts = () => {
       dispatch(showCurrentPost(post));
   }, [dispatch]);
   
-  const mediumPostList = useMemo(() => posts.slice(1, 5), [posts]);
-  console.log(posts);
-
-  const smallPostList = useMemo(() => posts.slice(5), [posts]);
-
   return (
     <div>
       <div className={styles.block}>
-        <Search onSearch={setSearch}/>
+        <Search onSearch={setSearch} />
       </div>
       <div className={styles.block}>
        <Ordering onChange={setOrdering} />
@@ -66,38 +59,22 @@ const AllPosts = () => {
       </div>
 
       <div>
-      <TablePagination
-        component="div"
-        count={count}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-      </div>
-
-      <div>
         <Link to={'/posts/create'}>
           Create
         </Link>
       </div>
+
       <div className={styles.container}>
-        <div className={styles.mainColumn}>
-          {posts[0] && <Post post={posts[0]}  action={onPostClick(posts[0])} />}
-          <div className={styles.mediumPosts}>
-            {mediumPostList.map((post: IPost) => {
-              return <Post key={post.id} post={post} size="medium" action={onPostClick(post)} />;
-            })}
-          </div>
-        </div>
-        <div className={styles.saidColumn}>
-          {smallPostList.map((post: IPost) => {
-            return <Post key={post.id} post={post} size="small" action={onPostClick(post)} />;
-          })}
-        </div> 
+        {posts.map((post: IPost, index: number) => (
+          <Post
+            key={post.id}
+            post={post}
+            size={index % 2 === 0 ? "medium" : "small"}
+            action={onPostClick(post)}
+          />
+        ))}
       </div>
     </div>
-
   )
 }
 

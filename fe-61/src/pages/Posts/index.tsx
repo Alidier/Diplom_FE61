@@ -46,11 +46,12 @@ const Posts = () => {
   return (
     <div className={styles.page}>
       <Title>Posts</Title>
-    
+      <div className={"tabs__container"}>
       <Tabs tabs={tabs} onChangeTab={setCurrentTab} />
-
+      </div>
       {loading && <Title>Loading.......</Title>}
-
+        
+      
       {!loading && currentTab === 1 && (
         <AllPosts />
       )}
@@ -62,7 +63,7 @@ const Posts = () => {
       {!loading && currentTab === 3 && (
         <PopularPosts />
       )}
-
+     
       <PostModal />
     </div>
   );

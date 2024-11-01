@@ -21,3 +21,45 @@
 .block {
   padding: 20px 0;
 }
+// styles.module.scss
+.paginationDark {
+  
+  color: #fff;
+
+  .rowControl {
+    color: #bbb;
+  }
+
+  .navigation {
+    button {
+      background-color: #333;
+      color: #fff;
+    }
+  }
+}
+
+.paginationLight {
+  background-color: #f3f3f3;
+  color: #333;
+
+  .rowControl {
+    color: #555;
+  }
+
+  .navigation {
+    button {
+      background-color: #fff;
+      color: #333;
+    }
+  }
+}
+
+.SelectSpan {
+  margin-right: 0.5rem;
+}
+.navigation__element {
+  margin: 0px 10px;
+}
+.navigation {
+  margin-top: 15px;
+}

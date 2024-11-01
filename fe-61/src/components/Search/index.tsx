@@ -1,19 +1,19 @@
-import Button from "components/Button"
-
-import styles from './styles.module.scss'
-import useInput from "shared/hooks/useInput"
-import { useEffect } from "react"
+import { FC, useEffect } from "react";
+import IconButton from "components/IconButton";
+import SearchIcon from '@mui/icons-material/Search'; // Импортируем иконку лупы
+import styles from './styles.module.scss';
+import useInput from "shared/hooks/useInput";
 
 interface SearchProps {
-  onSearch: (search: string) => void
+  onSearch: (search: string) => void;
 }
 
-const Search = ({ onSearch }: SearchProps) => {
+const Search: FC<SearchProps> = ({ onSearch }) => {
   const { value, handleChange, debouncedValue } = useInput('');
 
   useEffect(() => {
     onSearch(debouncedValue);
-  }, [debouncedValue, onSearch])
+  }, [debouncedValue, onSearch]);
   
   const onClick = () => {
     onSearch(value);
@@ -22,9 +22,11 @@ const Search = ({ onSearch }: SearchProps) => {
   return (
     <div className={styles.search}>
       <input type="text" placeholder="Search" onChange={handleChange} />
-      <Button onClick={onClick}>Search</Button>
+      <IconButton onClick={onClick} aria-label="Search">
+        <SearchIcon />
+      </IconButton>
     </div>
-  )
+  );
 }
 
 export default Search;

@@ -1,5 +1,80 @@
-.page {
+// CreatePostForm.module.scss
 
-}
-
-
+.darkTheme {
+    div {
+        color: white;
+        border-color: white;
+        
+    }
+    label {
+        color:white;
+    }
+    input {
+        border: 1px solid white;
+    }
+    textarea {
+        border:1px solid white;
+    }
+    background-color: #1e1e1e;
+    color: #ffffff;
+    
+    .MuiTextField-root {
+      background-color: #333333;
+      color: #ffffff;
+  
+      .MuiInputBase-input {
+        color: #ffffff;
+      }
+  
+      .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+        border-color: #777;
+      }
+  
+      .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: #aaa;
+      }
+    }
+  
+    .MuiButton-contained {
+      background-color: #555;
+      color: #fff;
+    }
+  
+    .MuiButton-outlined {
+      border-color: #aaa;
+      color: #fff;
+    }
+  }
+  
+  .lightTheme {
+    background-color: #ffffff;
+    color: #333333;
+  
+    .MuiTextField-root {
+      background-color: #f0f0f0;
+      color: #333333;
+  
+      .MuiInputBase-input {
+        color: #333333;
+      }
+  
+      .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+        border-color: #ccc;
+      }
+  
+      .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+        border-color: #555;
+      }
+    }
+  
+    .MuiButton-contained {
+      background-color: #3f51b5;
+      color: #fff;
+    }
+  
+    .MuiButton-outlined {
+      border-color: #3f51b5;
+      color: #3f51b5;
+    }
+  }
+  

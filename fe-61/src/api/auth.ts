@@ -1,39 +1,27 @@
-import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 import { BASE_API_URL } from "./baseApi";
 
 interface TokenPayload {
-  exp: number; // Время истечения токена в формате Unix (в секундах)
-  [key: string]: unknown; // Дополнительные свойства токена
+  exp: number;
+  [key: string]: unknown;
 }
 
 function isTokenExpired(token: string) {
-  const decoded  = jwtDecode<TokenPayload>(token);
+  const decoded = jwtDecode<TokenPayload>(token);
   const currentTime = Date.now() / 1000;
-
   return decoded.exp < currentTime;
 }
 
 const refreshAccessToken = async (refresh: string) => {
   try {
-    const response = await fetch(`${BASE_API_URL}/auth/jwt/refresh/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 'refresh': refresh })
-    })
-
-    if (!response.ok) {
-      throw new Error('Failed to refresh token');
-    }
-
-    const { access } = await response.json();
+    const response = await axios.post(`${BASE_API_URL}/auth/jwt/refresh/`, { refresh });
+    const { access } = response.data;
 
     localStorage.setItem('access', access);
-
     return access;
   } catch (error) {
-    console.error(error);
+    console.error("Failed to refresh token:", error);
   }
 }
 
@@ -54,57 +42,50 @@ interface LoginResponse {
 }
 
 export interface LoginArgs {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
 }
 
 export const login = async (body: LoginArgs): Promise<LoginResponse | undefined> => {
   try {
-    const response = await fetch(`${BASE_API_URL}/auth/jwt/create/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body)
-    });
+    const response = await axios.post(`${BASE_API_URL}/auth/jwt/create/`, body);
+    const { access, refresh } = response.data;
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Login error data:', errorData); // Логирование для проверки
-      throw new Error('Failed to login');
-    }
-    
-
-    const { access, refresh } = await response.json();
     localStorage.setItem('access', access);
     localStorage.setItem('refresh', refresh);
 
     return { access, refresh };
   } catch (error) {
-    console.error(error);
+    if (axios.isAxiosError(error) && error.response) {
+      console.error("Login error data:", error.response.data);
+    } else {
+      console.error("Failed to login:", error);
+    }
   }
 };
 
 export interface SignUpBody {
-  username: string,
-  email: string,
-  password: string,
-  course_group?: number
+  username: string;
+  email: string;
+  password: string;
+  course_group?: number;
 }
 
 export interface User {
-  id: number,
-  username: string,
-  email: string,
+  id: number;
+  username: string;
+  email: string;
 }
 
-const handleApiError = (error: Response) => {
-  console.log(error);
-  let errorMessage = ''
-  switch (error.status) {
-    case 400:
-      errorMessage = 'Not valid Data';
-      break;
+const handleApiError = (error: any) => {
+  let errorMessage = '';
+
+  if (axios.isAxiosError(error) && error.response) {
+    switch (error.response.status) {
+      case 400:
+        errorMessage = 'Not valid Data';
+        break;
+    }
   }
 
   return errorMessage;
@@ -112,51 +93,27 @@ const handleApiError = (error: Response) => {
 
 export const signUp = async (body: SignUpBody): Promise<User | undefined> => {
   try {
-    const response = await fetch(`${BASE_API_URL}/auth/users/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body)
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json(); // Получаем сообщение об ошибке
-      console.error("Ошибка при регистрации:", errorData); // Логируем подробную ошибку
-      throw new Error(handleApiError(response));
-    }
-
-    const user = await response.json();
-    return user;
+    const response = await axios.post(`${BASE_API_URL}/auth/users/`, body);
+    return response.data;
   } catch (error) {
-    console.error("Ошибка в процессе регистрации:", error);
+    const errorMessage = handleApiError(error);
+    console.error("Ошибка при регистрации:", errorMessage);
   }
 };
 
-
 export interface ActivateArgs {
-  uid: string,
-  token: string,
-} 
+  uid: string;
+  token: string;
+}
 
-export type ActivateResponse = ActivateArgs
+export type ActivateResponse = ActivateArgs;
 
 export const activate = async (body: ActivateArgs): Promise<ActivateResponse | undefined> => {
   try {
-    const response = await fetch(`${BASE_API_URL}/auth/users/activation/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body)
-    })
-    
-    if (!response.ok) {
-      throw new Error(handleApiError(response));
-    }
-
-    return await response.json();
+    const response = await axios.post(`${BASE_API_URL}/auth/users/activation/`, body);
+    return response.data;
   } catch (error) {
-    console.error(error);
+    const errorMessage = handleApiError(error);
+    console.error("Ошибка активации:", errorMessage);
   }
 }

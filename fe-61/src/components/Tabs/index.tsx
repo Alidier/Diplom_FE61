@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Button from "../Button";
+import styles from "./styles.module.scss"
 
 
 
@@ -26,12 +27,13 @@ export default function Tabs({ tabs, onChangeTab }: TabsProps) {
   };
 
   return (
-    <div>
+    <div className={styles.tabs__wrapper}>
       {tabs.map((tab) => (
         <Button
           key={tab.id}
           onClick={onClickTab(tab.id)}
           disabled={tab.id === activeTab}
+          className={"tab"}
         >
           {tab.label}
         </Button>
