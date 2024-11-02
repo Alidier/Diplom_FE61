@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useGetMeQuery } from "api/endpoints/user";
+import { ImageUploading } from "components/ImageUploading";
 import styles from './styles.module.scss';
 
-const UserProfile = () => {
+const UserDashboard = () => {
     const { data } = useGetMeQuery();
     const [avatarUrl, setAvatarUrl] = useState<string>('');
+    const [isAvatarUploadOpen, setIsAvatarUploadOpen] = useState(false);
 
-    // Загрузка аватара из localStorage при монтировании компонента
     useEffect(() => {
         const savedAvatar = localStorage.getItem('avatarUrl');
         if (savedAvatar) {
@@ -14,15 +15,12 @@ const UserProfile = () => {
         }
     }, []);
 
-    // Функция для обновления avatarUrl
     const updateAvatarUrl = (newAvatarUrl: string) => {
         setAvatarUrl(newAvatarUrl);
         localStorage.setItem('avatarUrl', newAvatarUrl);
     };
 
-    // Функция для обработки загрузки файла
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
+    const handleAvatarChange = (file?: File) => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -35,19 +33,35 @@ const UserProfile = () => {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.avatar}>
-                {avatarUrl ? (
-                    <img src={avatarUrl} alt="User Avatar" className={styles.avatarImage} />
-                ) : (
-                    <div className={styles.avatarPlaceholder}>No Avatar</div>
-                )}
+        <div className={styles.dashboardContainer}>
+            <div className={styles.userInfo}>
+                <div className={styles.avatarContainer}>
+                    <div className={styles.avatar}>
+                        {avatarUrl ? (
+                            <img src={avatarUrl} alt="User Avatar" className={styles.avatarImage} />
+                        ) : (
+                            <div className={styles.avatarPlaceholder}>No Avatar</div>
+                        )}
+                    </div>
+                    <button 
+                        onClick={() => setIsAvatarUploadOpen(!isAvatarUploadOpen)} 
+                        className={styles.changeAvatarButton}
+                    >
+                        Change Avatar
+                    </button>
+                    {isAvatarUploadOpen && (
+                        <div className={styles.avatarUploader}>
+                            <ImageUploading onChange={handleAvatarChange} />
+                        </div>
+                    )}
+                </div>
+                <div className={styles.details}>
+                    <h2>{data?.username}</h2>
+                    <p>{data?.email}</p>
+                </div>
             </div>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-            <h2>{data?.username}</h2>
-            <p>{data?.email}</p>
         </div>
     );
 };
 
-export default UserProfile;
+export default UserDashboard;

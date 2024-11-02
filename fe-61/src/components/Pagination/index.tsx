@@ -31,7 +31,6 @@ const Pagination = (props: PaginationProps) => {
   };
 
   const onNext = () => {
-    // Ensure offset does not exceed the 30-post limit
     const maxOffset = Math.min(30, props.count) - props.rowsPerPage;
     const newOffset = Math.min(props.offset + props.rowsPerPage, maxOffset);
 
